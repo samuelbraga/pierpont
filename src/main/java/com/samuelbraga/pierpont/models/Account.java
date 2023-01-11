@@ -1,6 +1,7 @@
 package com.samuelbraga.pierpont.models;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import lombok.*;
 
 @Entity
@@ -16,4 +17,6 @@ public class Account {
   private Long id;
 
   private String documentNumber;
+
+  private BigDecimal availableCreditLimit;
 }

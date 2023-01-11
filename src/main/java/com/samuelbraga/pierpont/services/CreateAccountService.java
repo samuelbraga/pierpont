@@ -6,6 +6,7 @@ import com.samuelbraga.pierpont.exceptions.ExceptionBase;
 import com.samuelbraga.pierpont.models.Account;
 import com.samuelbraga.pierpont.repositories.AccountRepository;
 import lombok.RequiredArgsConstructor;
+import org.openapitools.model.CreateAccountRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,14 @@ import org.springframework.stereotype.Service;
 public class CreateAccountService {
   private final AccountRepository repository;
 
-  public void execute(String documentNumber) {
-    this.validateAccountNumber(documentNumber);
-    var account = Account.builder().documentNumber(documentNumber).build();
-    this.repository.save(account);
+  public Account execute(CreateAccountRequest request) {
+    this.validateAccountNumber(request.getDocumentNumber());
+    var account = Account
+      .builder()
+      .documentNumber(request.getDocumentNumber())
+      .availableCreditLimit(request.getAvailableCreditLimit())
+      .build();
+    return this.repository.save(account);
   }
 
   private void validateAccountNumber(String documentNumber) {

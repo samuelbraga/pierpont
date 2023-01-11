@@ -1,7 +1,5 @@
 package com.samuelbraga.pierpont.controllers;
 
-import static com.samuelbraga.pierpont.Constants.ACCOUNT_ID_PARAM;
-
 import com.samuelbraga.pierpont.mappers.AccountMapper;
 import com.samuelbraga.pierpont.services.CreateAccountService;
 import com.samuelbraga.pierpont.services.SearchAccountService;
@@ -16,6 +14,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import static com.samuelbraga.pierpont.Constants.ACCOUNT_ID_PARAM;
+
 @RestController
 @RequiredArgsConstructor
 public class AccountController implements AccountsApi {
@@ -24,11 +24,12 @@ public class AccountController implements AccountsApi {
   private final AccountMapper accountMapper;
 
   @Override
-  public ResponseEntity<Void> createAccount(
-    @Valid @RequestBody CreateAccountRequest createAccountRequest
+  public ResponseEntity<AccountResponse> createAccount(
+          @Valid @RequestBody CreateAccountRequest createAccountRequest
   ) {
-    createAccountService.execute(createAccountRequest.getDocumentNumber());
-    return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    var account = createAccountService.execute(createAccountRequest);
+    var response = this.accountMapper.fromAccount(account);
+    return new ResponseEntity<>(response, HttpStatus.CREATED);
   }
 
   @Override
