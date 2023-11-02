@@ -5,8 +5,6 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Constants {
-  public static final String ERROR_ACCOUNT_NUMBER_NOT_EXISTS =
-    "Document number not exists";
   public static final String ERROR_ACCOUNT_NUMBER_EXISTS =
     "Document number already exists";
   public static final String ERROR_ACCOUNT_ID_NOT_EXISTS =
