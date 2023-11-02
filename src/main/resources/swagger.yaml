@@ -1,0 +1,159 @@
+openapi: 3.0.1
+info:
+  title: Pier pont API
+  description: API to management clients transactions
+  version: 1.0.0
+
+servers:
+  - url: http://localhost/api/v1
+    description: Development
+
+paths:
+  /accounts:
+    post:
+      summary: Create new account
+      description: Method responsible to create new account
+      operationId: createAccount
+      requestBody:
+        description: Request model to create account
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateAccountRequest'
+      responses:
+        '201':
+          description: CREATED
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionBase'
+
+  /accounts/{accountId}:
+    get:
+      summary: Search an account
+      description: Method responsible to search a specific account
+      operationId: searchAccount
+      parameters:
+        - $ref: '#/components/parameters/AccountIdParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionBase'
+
+  /transaction:
+    post:
+      summary: Create new transaction
+      description: Method responsible to create a new transaction
+      operationId: createTransaction
+      requestBody:
+        description: Request model to create a transaction
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateTransactionRequest'
+      responses:
+        '204':
+          description: CREATE
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionBase'
+
+components:
+  schemas:
+    OperationType:
+      type: string
+      enum:
+        - CASH_PURCHASE
+        - INSTALLMENT_PURCHASE
+        - WITHDRAWAL
+        - PAYMENT
+    CreateAccountRequest:
+      type: object
+      properties:
+        documentNumber:
+          type: string
+          example: "123456"
+        availableCreditLimit:
+          type: number
+          format: decimal
+          minimum: 0
+          example: 50
+      required:
+        - documentNumber
+        - availableCreditLimit
+    AccountResponse:
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+          example: 13
+        documentNumber:
+          type: string
+          example: "123456"
+        availableCreditLimit:
+          type: number
+          format: decimal
+          minimum: 0
+          example: 50
+      required:
+        - accountId
+        - documentNumber
+        - availableCreditLimit
+    CreateTransactionRequest:
+      type: object
+      properties:
+        accountId:
+          type: integer
+          format: int64
+          example: 13
+        amount:
+          type: number
+          format: decimal
+          minimum: 0
+          example: 50.00
+        operationType:
+          $ref: '#/components/schemas/OperationType'
+      required:
+        - documentNumber
+        - amount
+        - operationType
+    ExceptionBase:
+      type: object
+      properties:
+        message:
+          type: string
+          example: "message error"
+        code:
+          type: string
+          example: "BAD_REQUEST"
+
+  parameters:
+    AccountIdParam:
+      in: path
+      name: accountId
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 13

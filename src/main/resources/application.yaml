@@ -1,0 +1,39 @@
+server:
+  port: 8080
+  compression:
+    enabled: true
+    min-response-size: 1024
+    mime-types: application/json
+  servlet:
+    context-path: /api/v1
+
+spring:
+  application:
+    name: "Pierpont - API"
+  jpa:
+    show-sql: false
+  datasource:
+    driver-class-name: "org.postgresql.Driver"
+    url: ${DATABASE_JDBC_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
+
+management:
+  server:
+    port: 8081
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      show-details: "always"
+      group:
+        liveness:
+          include: "livenessState"
+        readiness:
+          include: "readinessState, db, diskSpace"
+  health:
+    livenessstate:
+      enabled: true
+    readinessstate:
+      enabled: true
