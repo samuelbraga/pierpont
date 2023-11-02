@@ -3,7 +3,6 @@ package com.samuelbraga.pierpont.application.mapper;
 import com.samuelbraga.pierpont.application.dtos.transactions.OperationTypeEnum;
 import com.samuelbraga.pierpont.infrastructure.repositories.entities.OperationType;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface OperationTypeMapper {

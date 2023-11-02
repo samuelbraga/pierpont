@@ -1,17 +1,13 @@
 package com.samuelbraga.pierpont.infrastructure.repositories.adapters.transactions;
 
-import com.samuelbraga.pierpont.application.adapters.accounts.SaveAccountAdapter;
 import com.samuelbraga.pierpont.application.adapters.transactions.SaveTransactionAdapter;
-import com.samuelbraga.pierpont.application.dtos.accounts.AccountDTO;
 import com.samuelbraga.pierpont.application.dtos.transactions.TransactionDTO;
-import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
 import com.samuelbraga.pierpont.application.mapper.AccountMapper;
 import com.samuelbraga.pierpont.application.mapper.OperationTypeMapper;
 import com.samuelbraga.pierpont.application.mapper.TransactionMapper;
 import com.samuelbraga.pierpont.infrastructure.repositories.TransactionRepository;
 import com.samuelbraga.pierpont.infrastructure.repositories.entities.Transaction;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
