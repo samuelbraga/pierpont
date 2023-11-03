@@ -1,15 +1,11 @@
 package com.samuelbraga.pierpont.infrastructure.repositories.adapters.accounts;
 
-import static com.samuelbraga.pierpont.Constants.ERROR_INVALID_DOCUMENT_NUMBER;
-
 import com.samuelbraga.pierpont.application.adapters.accounts.GetAccountByDocumentNumberAdapter;
 import com.samuelbraga.pierpont.application.dtos.accounts.AccountDTO;
-import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
 import com.samuelbraga.pierpont.application.mapper.AccountMapper;
 import com.samuelbraga.pierpont.infrastructure.repositories.AccountRepository;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,12 +17,6 @@ public class GetAccountByDocumentNumberAdapterImpl
 
   @Override
   public Optional<AccountDTO> execute(String documentNumber) {
-    if (documentNumber == null) {
-      throw new ExceptionBase(
-        ERROR_INVALID_DOCUMENT_NUMBER,
-        HttpStatus.BAD_REQUEST
-      );
-    }
     var account = this.repository.findByDocumentNumber(documentNumber);
     return account.map(this.mapper::fromAccountToAccountDTO);
   }

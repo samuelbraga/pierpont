@@ -1,11 +1,12 @@
 package com.samuelbraga.pierpont.infrastructure.repository.adapters.accounts;
 
 import com.samuelbraga.pierpont.application.dtos.accounts.AccountDTO;
-import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
 import com.samuelbraga.pierpont.application.mapper.AccountMapperImpl;
 import com.samuelbraga.pierpont.infrastructure.repositories.AccountRepository;
 import com.samuelbraga.pierpont.infrastructure.repositories.adapters.accounts.GetAccountByDocumentNumberAdapterImpl;
 import com.samuelbraga.pierpont.infrastructure.repositories.entities.Account;
+import java.math.BigDecimal;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +14,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.math.BigDecimal;
-import java.util.Optional;
 
 @ExtendWith(MockitoExtension.class)
 class GetAccountByDocumentNumberAdapterImplTest {
@@ -87,10 +85,5 @@ class GetAccountByDocumentNumberAdapterImplTest {
     var result = unit.execute(documentNumber);
 
     Assertions.assertTrue(result.isEmpty());
-  }
-
-  @Test
-  void testExecuteWhenPassNullableToMethod() {
-    Assertions.assertThrows(ExceptionBase.class, () -> unit.execute(null));
   }
 }

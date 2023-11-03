@@ -6,7 +6,10 @@ import com.samuelbraga.pierpont.infrastructure.repositories.entities.Transaction
 import org.mapstruct.Mapper;
 import org.openapitools.model.CreateTransactionRequest;
 
-@Mapper(componentModel = "spring", uses = OperationTypeMapper.class)
+@Mapper(
+  componentModel = "spring",
+  uses = { OperationTypeMapper.class, AccountMapper.class }
+)
 public interface TransactionMapper {
   TransactionDTO fromTransactionToTransactionDTO(Transaction from);
   CreateTransactionDTO fromCreateTransactionRequestToCreateTransactionDTO(
