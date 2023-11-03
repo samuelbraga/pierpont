@@ -16,7 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CreateTransactionalHandleImpl implements CreateTransactionalHandle {
+public class CreateTransactionalHandleImpl
+  implements CreateTransactionalHandle {
   private final SaveAccountAdapter saveAccountAdapter;
   private final SaveTransactionAdapter saveTransactionAdapter;
 
@@ -34,7 +35,8 @@ public class CreateTransactionalHandleImpl implements CreateTransactionalHandle 
 
     this.validateOperationTypeHandle.execute(operationTypeEnum);
 
-    var account = this.searchAccountHandle.execute(createTransactionDTO.getAccountId());
+    var account =
+      this.searchAccountHandle.execute(createTransactionDTO.getAccountId());
     account =
       transactionCalculationHandle.execute(
         operationTypeEnum,

@@ -31,12 +31,18 @@ public class BodyValidationExceptionHandler {
       .map(
         fieldError -> {
           String message =
-            this.messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+            this.messageSource.getMessage(
+                fieldError,
+                LocaleContextHolder.getLocale()
+              );
           return new ErrorBodyValidationDTO(fieldError.getField(), message);
         }
       )
       .collect(Collectors.toList());
 
-    return new ResponseEntity<>(listErrorBodyValidationDTO, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(
+      listErrorBodyValidationDTO,
+      HttpStatus.BAD_REQUEST
+    );
   }
 }

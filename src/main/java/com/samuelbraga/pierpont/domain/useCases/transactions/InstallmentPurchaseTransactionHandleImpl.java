@@ -10,7 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service("InstallmentPurchaseTransactionHandle")
-public class InstallmentPurchaseTransactionHandleImpl implements TransactionHandle {
+public class InstallmentPurchaseTransactionHandleImpl
+  implements TransactionHandle {
 
   @Override
   public AccountDTO execute(AccountDTO accountDTO, BigDecimal amount) {
@@ -20,7 +21,10 @@ public class InstallmentPurchaseTransactionHandleImpl implements TransactionHand
     return accountDTO;
   }
 
-  private void creditLimitValidation(BigDecimal amount, BigDecimal availableCreditLimit) {
+  private void creditLimitValidation(
+    BigDecimal amount,
+    BigDecimal availableCreditLimit
+  ) {
     if (amount.compareTo(availableCreditLimit) > 0) {
       throw new ExceptionBase(
         ERROR_AVAILABLE_CREDIT_LIMIT_EXCEEDED,

@@ -34,7 +34,10 @@ public class CreateAccountHandleImpl implements CreateAccountHandle {
     this.getAccountByDocumentNumberAdapter.execute(documentNumber)
       .ifPresent(
         _account -> {
-          throw new ExceptionBase(ERROR_ACCOUNT_NUMBER_EXISTS, HttpStatus.BAD_REQUEST);
+          throw new ExceptionBase(
+            ERROR_ACCOUNT_NUMBER_EXISTS,
+            HttpStatus.BAD_REQUEST
+          );
         }
       );
   }

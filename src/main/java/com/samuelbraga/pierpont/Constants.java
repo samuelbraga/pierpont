@@ -7,11 +7,19 @@ import lombok.NoArgsConstructor;
 public class Constants {
   public static final String ERROR_ACCOUNT_NUMBER_EXISTS =
     "Document number already exists";
-  public static final String ERROR_ACCOUNT_ID_NOT_EXISTS = "Account id not exist";
+  public static final String ERROR_INVALID_DOCUMENT_NUMBER =
+    "Invalid Document number";
+  public static final String ERROR_ACCOUNT_ID_NOT_EXISTS =
+    "Account id not exist";
+
+  public static final String ERROR_INVALID_ACCOUNT_ID = "Invalid Account ID";
   public static final String ERROR_OPERATION_TYPE_NOT_EXISTS =
     "Operation type not exists";
   public static final String ERROR_AVAILABLE_CREDIT_LIMIT_EXCEEDED =
     "Available credit limit was exceeded";
+
+  public static final String ERROR_INVALID_ACCOUNT_VALUE_TO_SAVE =
+    "Invalid Account value to save";
 
   public static final String ACCOUNT_ID_PARAM = "accountId";
 }
