@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CalculateAmountService {
 
-  public BigDecimal execute(
+  public static BigDecimal execute(
     BigDecimal amount,
     OperationTypeEnum operationType
   ) {

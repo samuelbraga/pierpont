@@ -25,8 +25,6 @@ public class CreateTransactionalHandleImpl
   private final SearchAccountHandle searchAccountHandle;
   private final TransactionCalculationHandle transactionCalculationHandle;
 
-  private final CalculateAmountService calculateAmountService;
-
   @Override
   public void execute(CreateTransactionDTO createTransactionDTO) {
     var operationTypeEnum = OperationTypeEnum.valueOf(
@@ -44,11 +42,10 @@ public class CreateTransactionalHandleImpl
         createTransactionDTO.getAmount()
       );
 
-    var amount =
-      this.calculateAmountService.execute(
-          createTransactionDTO.getAmount(),
-          operationTypeEnum
-        );
+    var amount = CalculateAmountService.execute(
+      createTransactionDTO.getAmount(),
+      operationTypeEnum
+    );
 
     var transaction = TransactionDTO
       .builder()

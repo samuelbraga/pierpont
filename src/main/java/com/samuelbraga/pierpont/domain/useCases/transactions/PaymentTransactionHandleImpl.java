@@ -11,7 +11,7 @@ public class PaymentTransactionHandleImpl implements TransactionHandle {
   @Override
   public AccountDTO execute(AccountDTO accountDTO, BigDecimal amount) {
     var creditAvailable = accountDTO.getAvailableCreditLimit();
-    accountDTO.setAvailableCreditLimit(creditAvailable.add(amount));
+    accountDTO.setAvailableCreditLimit(creditAvailable.add(amount.abs()));
     return accountDTO;
   }
 }
