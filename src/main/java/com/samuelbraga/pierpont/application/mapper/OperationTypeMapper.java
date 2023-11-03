@@ -6,9 +6,7 @@ import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
 public interface OperationTypeMapper {
-  default OperationType fromOperationTypeEnumToOperationType(
-    OperationTypeEnum from
-  ) {
+  default OperationType fromOperationTypeEnumToOperationType(OperationTypeEnum from) {
     return OperationType
       .builder()
       .id(from.getValue().longValue())
@@ -16,9 +14,7 @@ public interface OperationTypeMapper {
       .build();
   }
 
-  default OperationTypeEnum fromOperationTypeToOperationTypeEnum(
-    OperationType from
-  ) {
+  default OperationTypeEnum fromOperationTypeToOperationTypeEnum(OperationType from) {
     return OperationTypeEnum.valueOf(from.getDescription());
   }
 }

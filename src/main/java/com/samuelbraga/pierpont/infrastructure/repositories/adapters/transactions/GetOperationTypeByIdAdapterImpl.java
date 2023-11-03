@@ -10,8 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GetOperationTypeByIdAdapterImpl
-  implements GetOperationTypeByIdAdapter {
+public class GetOperationTypeByIdAdapterImpl implements GetOperationTypeByIdAdapter {
   private final OperationTypeRepository repository;
   private final OperationTypeMapper mapper;
 

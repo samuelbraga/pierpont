@@ -28,12 +28,9 @@ public class AccountController implements AccountsApi {
     @Valid @RequestBody CreateAccountRequest createAccountRequest
   ) {
     var createAccountDTO =
-      this.accountMapper.fromCreateAccountRequestToCreateAccountDTO(
-          createAccountRequest
-        );
+      this.accountMapper.fromCreateAccountRequestToCreateAccountDTO(createAccountRequest);
     var accountDTO = this.createAccountHandle.execute(createAccountDTO);
-    var response =
-      this.accountMapper.fromAccountDTOToAccountResponse(accountDTO);
+    var response = this.accountMapper.fromAccountDTOToAccountResponse(accountDTO);
     return new ResponseEntity<>(response, HttpStatus.CREATED);
   }
 
@@ -42,8 +39,7 @@ public class AccountController implements AccountsApi {
     @PathVariable(ACCOUNT_ID_PARAM) Long accountId
   ) {
     var accountDTO = searchAccountHandle.execute(accountId);
-    var response =
-      this.accountMapper.fromAccountDTOToAccountResponse(accountDTO);
+    var response = this.accountMapper.fromAccountDTOToAccountResponse(accountDTO);
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }

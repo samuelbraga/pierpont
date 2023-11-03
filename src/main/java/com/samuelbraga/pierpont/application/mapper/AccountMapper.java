@@ -17,7 +17,5 @@ public interface AccountMapper {
   AccountDTO fromAccountToAccountDTO(Account from);
 
   AccountResponse fromAccountDTOToAccountResponse(AccountDTO from);
-  CreateAccountDTO fromCreateAccountRequestToCreateAccountDTO(
-    CreateAccountRequest from
-  );
+  CreateAccountDTO fromCreateAccountRequestToCreateAccountDTO(CreateAccountRequest from);
 }

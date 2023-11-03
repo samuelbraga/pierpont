@@ -19,8 +19,7 @@ public class SearchAccountHandleImpl implements SearchAccountHandle {
   public AccountDTO execute(Long accountId) {
     return this.getAccountByIdAdapter.execute(accountId)
       .orElseThrow(
-        () ->
-          new ExceptionBase(ERROR_ACCOUNT_ID_NOT_EXISTS, HttpStatus.BAD_REQUEST)
+        () -> new ExceptionBase(ERROR_ACCOUNT_ID_NOT_EXISTS, HttpStatus.BAD_REQUEST)
       );
   }
 }

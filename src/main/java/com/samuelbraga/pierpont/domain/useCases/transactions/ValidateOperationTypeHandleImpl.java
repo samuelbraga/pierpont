@@ -12,21 +12,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class ValidateOperationTypeHandleImpl
-  implements ValidateOperationTypeHandle {
+public class ValidateOperationTypeHandleImpl implements ValidateOperationTypeHandle {
   private final GetOperationTypeByIdAdapter getOperationTypeByIdAdapter;
 
   @Override
   public void execute(OperationTypeEnum operationTypeEnum) {
-    this.getOperationTypeByIdAdapter.execute(
-        operationTypeEnum.getValue().longValue()
-      )
+    this.getOperationTypeByIdAdapter.execute(operationTypeEnum.getValue().longValue())
       .orElseThrow(
-        () ->
-          new ExceptionBase(
-            ERROR_OPERATION_TYPE_NOT_EXISTS,
-            HttpStatus.BAD_REQUEST
-          )
+        () -> new ExceptionBase(ERROR_OPERATION_TYPE_NOT_EXISTS, HttpStatus.BAD_REQUEST)
       );
   }
 }

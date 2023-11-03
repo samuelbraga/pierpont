@@ -7,6 +7,7 @@ import com.samuelbraga.pierpont.application.dtos.transactions.OperationTypeEnum;
 import com.samuelbraga.pierpont.application.dtos.transactions.TransactionDTO;
 import com.samuelbraga.pierpont.application.handles.accounts.SearchAccountHandle;
 import com.samuelbraga.pierpont.application.handles.transactions.CreateTransactionalHandle;
+import com.samuelbraga.pierpont.application.handles.transactions.TransactionCalculationHandle;
 import com.samuelbraga.pierpont.application.handles.transactions.ValidateOperationTypeHandle;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -15,16 +16,15 @@ import org.springframework.stereotype.Service;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class CreateTransactionalHandleImpl
-  implements CreateTransactionalHandle {
+public class CreateTransactionalHandleImpl implements CreateTransactionalHandle {
   private final SaveAccountAdapter saveAccountAdapter;
   private final SaveTransactionAdapter saveTransactionAdapter;
 
   private final ValidateOperationTypeHandle validateOperationTypeHandle;
   private final SearchAccountHandle searchAccountHandle;
+  private final TransactionCalculationHandle transactionCalculationHandle;
 
   private final CalculateAmountService calculateAmountService;
-  private final AvailableCreditLimitValidationService availableCreditLimitValidationService;
 
   @Override
   public void execute(CreateTransactionDTO createTransactionDTO) {
@@ -33,18 +33,19 @@ public class CreateTransactionalHandleImpl
     );
 
     this.validateOperationTypeHandle.execute(operationTypeEnum);
-    var account =
-      this.searchAccountHandle.execute(createTransactionDTO.getAccountId());
+
+    var account = this.searchAccountHandle.execute(createTransactionDTO.getAccountId());
+    account =
+      transactionCalculationHandle.execute(
+        operationTypeEnum,
+        account,
+        createTransactionDTO.getAmount()
+      );
+
     var amount =
       this.calculateAmountService.execute(
           createTransactionDTO.getAmount(),
           operationTypeEnum
-        );
-    account =
-      this.availableCreditLimitValidationService.execute(
-          account,
-          operationTypeEnum,
-          createTransactionDTO.getAmount()
         );
 
     var transaction = TransactionDTO

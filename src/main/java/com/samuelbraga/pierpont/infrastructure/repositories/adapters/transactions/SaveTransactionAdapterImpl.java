@@ -24,8 +24,7 @@ public class SaveTransactionAdapterImpl implements SaveTransactionAdapter {
       this.operationTypeMapper.fromOperationTypeEnumToOperationType(
           transactionDTO.getOperationType()
         );
-    var account =
-      this.accountMapper.fromAccountDTOToAccount(transactionDTO.getAccount());
+    var account = this.accountMapper.fromAccountDTOToAccount(transactionDTO.getAccount());
 
     var transaction = Transaction
       .builder()
@@ -35,8 +34,6 @@ public class SaveTransactionAdapterImpl implements SaveTransactionAdapter {
       .build();
 
     var savedTransaction = this.repository.save(transaction);
-    return this.transactionMapper.fromTransactionToTransactionDTO(
-        savedTransaction
-      );
+    return this.transactionMapper.fromTransactionToTransactionDTO(savedTransaction);
   }
 }
