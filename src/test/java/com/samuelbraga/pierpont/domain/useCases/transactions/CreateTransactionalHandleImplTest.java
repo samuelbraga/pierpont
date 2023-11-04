@@ -10,6 +10,7 @@ import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
 import com.samuelbraga.pierpont.application.handles.accounts.SearchAccountHandle;
 import com.samuelbraga.pierpont.application.handles.transactions.TransactionCalculationHandle;
 import com.samuelbraga.pierpont.application.handles.transactions.ValidateOperationTypeHandle;
+import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +19,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-
-import java.math.BigDecimal;
 
 @ExtendWith(MockitoExtension.class)
 class CreateTransactionalHandleImplTest {
@@ -112,8 +111,8 @@ class CreateTransactionalHandleImplTest {
       .execute(operationType);
 
     ExceptionBase exception = Assertions.assertThrows(
-            ExceptionBase.class,
-            () -> unit.execute(createTransactionDTO)
+      ExceptionBase.class,
+      () -> unit.execute(createTransactionDTO)
     );
 
     Assertions.assertEquals("error", exception.getMessage());
@@ -149,8 +148,8 @@ class CreateTransactionalHandleImplTest {
       .thenThrow(new ExceptionBase("error", HttpStatus.BAD_REQUEST));
 
     ExceptionBase exception = Assertions.assertThrows(
-            ExceptionBase.class,
-            () -> unit.execute(createTransactionDTO)
+      ExceptionBase.class,
+      () -> unit.execute(createTransactionDTO)
     );
 
     Assertions.assertEquals("error", exception.getMessage());

@@ -1,10 +1,14 @@
 package com.samuelbraga.pierpont.domain.useCases.accounts;
 
+import static com.samuelbraga.pierpont.Constants.ERROR_ACCOUNT_NUMBER_EXISTS;
+
 import com.samuelbraga.pierpont.application.adapters.accounts.GetAccountByDocumentNumberAdapter;
 import com.samuelbraga.pierpont.application.adapters.accounts.SaveAccountAdapter;
 import com.samuelbraga.pierpont.application.dtos.accounts.AccountDTO;
 import com.samuelbraga.pierpont.application.dtos.accounts.CreateAccountDTO;
 import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
+import java.math.BigDecimal;
+import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,11 +17,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
-
-import java.math.BigDecimal;
-import java.util.Optional;
-
-import static com.samuelbraga.pierpont.Constants.ERROR_ACCOUNT_NUMBER_EXISTS;
 
 @ExtendWith(MockitoExtension.class)
 class CreateAccountHandleImplTest {
@@ -103,7 +102,10 @@ class CreateAccountHandleImplTest {
       () -> unit.execute(createAccountDTO)
     );
 
-    Assertions.assertEquals(ERROR_ACCOUNT_NUMBER_EXISTS, exception.getMessage());
+    Assertions.assertEquals(
+      ERROR_ACCOUNT_NUMBER_EXISTS,
+      exception.getMessage()
+    );
     Assertions.assertEquals(HttpStatus.BAD_REQUEST, exception.getCode());
   }
 }
