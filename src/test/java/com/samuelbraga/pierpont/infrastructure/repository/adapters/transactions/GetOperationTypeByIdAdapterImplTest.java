@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -29,14 +31,19 @@ class GetOperationTypeByIdAdapterImplTest {
     unit = new GetOperationTypeByIdAdapterImpl(repository, mapper);
   }
 
-  @Test
-  void testExecuteWhenRepositoryContainOperationType() {
-    var operationTypeDescription = "CASH_PURCHASE";
-    var operationTypeId = 1L;
+  @ParameterizedTest
+  @ValueSource(
+    strings = { "CASH_PURCHASE", "INSTALLMENT_PURCHASE", "WITHDRAWAL" }
+  )
+  void testExecuteWhenRepositoryContainOperationType(
+    String operationTypeDescription
+  ) {
+    var operationTypeEnum = OperationTypeEnum.valueOf(operationTypeDescription);
+    var operationTypeId = operationTypeEnum.getValue().longValue();
 
     var operationType = OperationType
       .builder()
-      .id(1L)
+      .id(operationTypeId)
       .description(operationTypeDescription)
       .build();
 
