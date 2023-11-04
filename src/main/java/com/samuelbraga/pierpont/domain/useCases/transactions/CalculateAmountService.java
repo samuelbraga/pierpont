@@ -2,10 +2,8 @@ package com.samuelbraga.pierpont.domain.useCases.transactions;
 
 import com.samuelbraga.pierpont.application.dtos.transactions.OperationTypeEnum;
 import java.math.BigDecimal;
-import org.springframework.stereotype.Service;
 
-@Service
-public class CalculateAmountService {
+public abstract class CalculateAmountService {
 
   public static BigDecimal execute(
     BigDecimal amount,

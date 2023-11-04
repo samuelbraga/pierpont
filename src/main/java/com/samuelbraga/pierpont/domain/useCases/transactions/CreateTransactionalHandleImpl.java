@@ -3,7 +3,6 @@ package com.samuelbraga.pierpont.domain.useCases.transactions;
 import com.samuelbraga.pierpont.application.adapters.accounts.SaveAccountAdapter;
 import com.samuelbraga.pierpont.application.adapters.transactions.SaveTransactionAdapter;
 import com.samuelbraga.pierpont.application.dtos.transactions.CreateTransactionDTO;
-import com.samuelbraga.pierpont.application.dtos.transactions.OperationTypeEnum;
 import com.samuelbraga.pierpont.application.dtos.transactions.TransactionDTO;
 import com.samuelbraga.pierpont.application.handles.accounts.SearchAccountHandle;
 import com.samuelbraga.pierpont.application.handles.transactions.CreateTransactionalHandle;
@@ -27,31 +26,29 @@ public class CreateTransactionalHandleImpl
 
   @Override
   public void execute(CreateTransactionDTO createTransactionDTO) {
-    var operationTypeEnum = OperationTypeEnum.valueOf(
-      createTransactionDTO.getOperationType().name()
-    );
-
-    this.validateOperationTypeHandle.execute(operationTypeEnum);
+    this.validateOperationTypeHandle.execute(
+        createTransactionDTO.getOperationType()
+      );
 
     var account =
       this.searchAccountHandle.execute(createTransactionDTO.getAccountId());
     account =
       transactionCalculationHandle.execute(
-        operationTypeEnum,
+        createTransactionDTO.getOperationType(),
         account,
         createTransactionDTO.getAmount()
       );
 
     var amount = CalculateAmountService.execute(
       createTransactionDTO.getAmount(),
-      operationTypeEnum
+      createTransactionDTO.getOperationType()
     );
 
     var transaction = TransactionDTO
       .builder()
       .amount(amount)
       .account(account)
-      .operationType(operationTypeEnum)
+      .operationType(createTransactionDTO.getOperationType())
       .build();
 
     this.saveAccountAdapter.execute(account);
