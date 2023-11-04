@@ -3,8 +3,6 @@ package com.samuelbraga.pierpont.domain.useCases.accounts;
 import com.samuelbraga.pierpont.application.adapters.accounts.GetAccountByIdAdapter;
 import com.samuelbraga.pierpont.application.dtos.accounts.AccountDTO;
 import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
-import java.math.BigDecimal;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +10,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+
+import java.math.BigDecimal;
+import java.util.Optional;
+
+import static com.samuelbraga.pierpont.Constants.ERROR_ACCOUNT_ID_NOT_EXISTS;
 
 @ExtendWith(MockitoExtension.class)
 class SearchAccountHandleImplTest {
@@ -63,6 +67,12 @@ class SearchAccountHandleImplTest {
       .when(getAccountByIdAdapter.execute(accountId))
       .thenReturn(Optional.empty());
 
-    Assertions.assertThrows(ExceptionBase.class, () -> unit.execute(accountId));
+    ExceptionBase exception = Assertions.assertThrows(
+            ExceptionBase.class,
+            () -> unit.execute(accountId)
+    );
+
+    Assertions.assertEquals(ERROR_ACCOUNT_ID_NOT_EXISTS, exception.getMessage());
+    Assertions.assertEquals(HttpStatus.BAD_REQUEST, exception.getCode());
   }
 }

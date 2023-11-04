@@ -95,7 +95,6 @@ components:
           example: "123456"
         availableCreditLimit:
           type: number
-          format: decimal
           minimum: 0
           example: 50
       required:
@@ -113,7 +112,6 @@ components:
           example: "123456"
         availableCreditLimit:
           type: number
-          format: decimal
           minimum: 0
           example: 50
       required:
@@ -129,7 +127,6 @@ components:
           example: 13
         amount:
           type: number
-          format: decimal
           minimum: 0
           example: 50.00
         operationType:

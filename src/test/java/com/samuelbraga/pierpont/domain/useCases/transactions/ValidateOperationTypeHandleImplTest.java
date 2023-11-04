@@ -3,7 +3,6 @@ package com.samuelbraga.pierpont.domain.useCases.transactions;
 import com.samuelbraga.pierpont.application.adapters.transactions.GetOperationTypeByIdAdapter;
 import com.samuelbraga.pierpont.application.dtos.transactions.OperationTypeEnum;
 import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
-import java.util.Optional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,6 +12,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+
+import java.util.Optional;
+
+import static com.samuelbraga.pierpont.Constants.ERROR_OPERATION_TYPE_NOT_EXISTS;
 
 @ExtendWith(MockitoExtension.class)
 class ValidateOperationTypeHandleImplTest {
@@ -53,9 +57,12 @@ class ValidateOperationTypeHandleImplTest {
       .when(getOperationTypeByIdAdapter.execute(Mockito.any()))
       .thenReturn(Optional.empty());
 
-    Assertions.assertThrows(
-      ExceptionBase.class,
-      () -> unit.execute(OperationTypeEnum.PAYMENT)
+    ExceptionBase exception = Assertions.assertThrows(
+            ExceptionBase.class,
+            () -> unit.execute(OperationTypeEnum.PAYMENT)
     );
+
+    Assertions.assertEquals(ERROR_OPERATION_TYPE_NOT_EXISTS, exception.getMessage());
+    Assertions.assertEquals(HttpStatus.BAD_REQUEST, exception.getCode());
   }
 }

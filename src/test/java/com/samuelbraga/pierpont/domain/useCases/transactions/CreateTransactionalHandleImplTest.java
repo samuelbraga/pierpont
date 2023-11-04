@@ -10,7 +10,6 @@ import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
 import com.samuelbraga.pierpont.application.handles.accounts.SearchAccountHandle;
 import com.samuelbraga.pierpont.application.handles.transactions.TransactionCalculationHandle;
 import com.samuelbraga.pierpont.application.handles.transactions.ValidateOperationTypeHandle;
-import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,6 +17,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
+
+import java.math.BigDecimal;
 
 @ExtendWith(MockitoExtension.class)
 class CreateTransactionalHandleImplTest {
@@ -105,14 +107,17 @@ class CreateTransactionalHandleImplTest {
       .build();
 
     Mockito
-      .doThrow(ExceptionBase.class)
+      .doThrow(new ExceptionBase("error", HttpStatus.BAD_REQUEST))
       .when(validateOperationTypeHandle)
       .execute(operationType);
 
-    Assertions.assertThrows(
-      ExceptionBase.class,
-      () -> unit.execute(createTransactionDTO)
+    ExceptionBase exception = Assertions.assertThrows(
+            ExceptionBase.class,
+            () -> unit.execute(createTransactionDTO)
     );
+
+    Assertions.assertEquals("error", exception.getMessage());
+    Assertions.assertEquals(HttpStatus.BAD_REQUEST, exception.getCode());
 
     Mockito
       .verify(saveAccountAdapter, Mockito.times(0))
@@ -141,12 +146,15 @@ class CreateTransactionalHandleImplTest {
       .execute(operationType);
     Mockito
       .when(searchAccountHandle.execute(accountId))
-      .thenThrow(ExceptionBase.class);
+      .thenThrow(new ExceptionBase("error", HttpStatus.BAD_REQUEST));
 
-    Assertions.assertThrows(
-      ExceptionBase.class,
-      () -> unit.execute(createTransactionDTO)
+    ExceptionBase exception = Assertions.assertThrows(
+            ExceptionBase.class,
+            () -> unit.execute(createTransactionDTO)
     );
+
+    Assertions.assertEquals("error", exception.getMessage());
+    Assertions.assertEquals(HttpStatus.BAD_REQUEST, exception.getCode());
 
     Mockito
       .verify(saveAccountAdapter, Mockito.times(0))

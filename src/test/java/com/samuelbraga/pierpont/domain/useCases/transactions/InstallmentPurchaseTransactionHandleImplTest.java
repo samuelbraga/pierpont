@@ -2,10 +2,14 @@ package com.samuelbraga.pierpont.domain.useCases.transactions;
 
 import com.samuelbraga.pierpont.application.dtos.accounts.AccountDTO;
 import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
-import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+
+import java.math.BigDecimal;
+
+import static com.samuelbraga.pierpont.Constants.ERROR_AVAILABLE_CREDIT_LIMIT_EXCEEDED;
 
 class InstallmentPurchaseTransactionHandleImplTest {
   private InstallmentPurchaseTransactionHandleImpl unit;
@@ -59,9 +63,12 @@ class InstallmentPurchaseTransactionHandleImplTest {
 
   @Test
   void testExecuteWhenAccountHasLessAvailableCreditLimitThenAmountNeeded() {
-    Assertions.assertThrows(
-      ExceptionBase.class,
-      () -> unit.execute(accountDTO, BigDecimal.valueOf(11))
+    ExceptionBase exception = Assertions.assertThrows(
+            ExceptionBase.class,
+            () -> unit.execute(accountDTO, BigDecimal.valueOf(11))
     );
+
+    Assertions.assertEquals(ERROR_AVAILABLE_CREDIT_LIMIT_EXCEEDED, exception.getMessage());
+    Assertions.assertEquals(HttpStatus.BAD_REQUEST, exception.getCode());
   }
 }
