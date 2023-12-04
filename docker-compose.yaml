@@ -55,7 +55,7 @@ services:
     networks:
       - pierpont
 
-  newman:
+  health-check:
     image: alpine
     depends_on:
       flyway:

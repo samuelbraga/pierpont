@@ -52,6 +52,46 @@ To execute unit tests is possible use:
 ### Integration Tests
 The integration tests ware develop using Newman and Postman
 
+Certainly! Here's the information in Markdown format:
+
+### Postman:
+
+- **Purpose:**
+    - Postman is a popular API development and testing tool that simplifies the process of working with APIs. It provides a user-friendly interface for sending HTTP requests to APIs and analyzing the responses.
+
+- **Features:**
+    - **Request Builder:** Postman allows users to create various types of HTTP requests, such as GET, POST, PUT, DELETE, etc., through a graphical user interface.
+    - **Collections:** Requests can be organized into collections, making it easy to manage and run a series of related API calls.
+    - **Environments:** Postman supports the concept of environments, allowing users to define variables and switch between different sets of configurations easily.
+    - **Testing:** Postman provides a testing framework that allows users to write test scripts for their API requests to validate the responses.
+    - **Automation:** Postman also supports the automation of API testing through the use of collections and the Newman command-line tool.
+
+### Newman:
+
+- **Purpose:**
+    - Newman is the command-line companion tool for Postman. It allows users to run Postman collections from the command line, making it easy to integrate API testing into continuous integration (CI) pipelines and automate testing processes.
+
+- **Features:**
+    - **Command-line Interface:** Newman provides a command-line interface that allows users to run Postman collections using simple commands.
+    - **Automation:** With Newman, users can integrate API testing into their CI/CD workflows, enabling automated testing of APIs as part of the development and deployment process.
+    - **Reporting:** Newman generates detailed reports after running a collection, providing insights into the test results.
+
+### Workflow:
+
+1. **Develop and Test in Postman:**
+    - Use Postman to create and test API requests interactively.
+    - Organize requests into collections and write tests to validate responses.
+
+2. **Automation with Newman:**
+    - Integrate Postman collections into automated testing processes using Newman.
+    - Run collections from the command line or incorporate them into CI/CD pipelines.
+    - Obtain detailed reports on test results.
+
+In summary, Postman is a comprehensive API development and testing tool with a graphical user interface, while Newman is a command-line tool that facilitates the automation and integration of Postman collections into various workflows. Together, they provide a powerful solution for API development, testing, and automation.
+
+```
+./integration-test.sh
+```
 
 
 ### Style test
