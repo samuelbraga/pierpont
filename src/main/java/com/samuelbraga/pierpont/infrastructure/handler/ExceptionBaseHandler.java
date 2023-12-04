@@ -1,7 +1,7 @@
-package com.samuelbraga.pierpont.application.exceptions.handler;
+package com.samuelbraga.pierpont.infrastructure.handler;
 
 import com.samuelbraga.pierpont.application.exceptions.ExceptionBase;
-import com.samuelbraga.pierpont.application.exceptions.handler.dtos.ExceptionBaseDTO;
+import com.samuelbraga.pierpont.infrastructure.handler.dtos.ExceptionBaseDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

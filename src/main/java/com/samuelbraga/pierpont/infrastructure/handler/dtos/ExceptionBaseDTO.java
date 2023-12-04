@@ -1,4 +1,4 @@
-package com.samuelbraga.pierpont.application.exceptions.handler.dtos;
+package com.samuelbraga.pierpont.infrastructure.handler.dtos;
 
 import lombok.*;
 import org.springframework.http.HttpStatus;

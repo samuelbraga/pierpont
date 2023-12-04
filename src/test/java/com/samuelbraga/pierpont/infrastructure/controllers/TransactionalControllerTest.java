@@ -2,6 +2,7 @@ package com.samuelbraga.pierpont.infrastructure.controllers;
 
 import com.samuelbraga.pierpont.application.dtos.transactions.CreateTransactionDTO;
 import com.samuelbraga.pierpont.application.handles.transactions.CreateTransactionalHandle;
+import com.samuelbraga.pierpont.application.handles.transactions.ListTransactionHandle;
 import com.samuelbraga.pierpont.application.mapper.TransactionMapperImpl;
 import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
@@ -21,6 +22,9 @@ class TransactionalControllerTest {
   private CreateTransactionalHandle createTransactionalHandle;
 
   @Mock
+  private ListTransactionHandle listTransactionHandle;
+
+  @Mock
   private TransactionMapperImpl transactionMapper;
 
   private TransactionalController unit;
@@ -28,7 +32,7 @@ class TransactionalControllerTest {
   @BeforeEach
   void setUp() {
     unit =
-      new TransactionalController(createTransactionalHandle, transactionMapper);
+      new TransactionalController(createTransactionalHandle, listTransactionHandle, transactionMapper);
   }
 
   @Test

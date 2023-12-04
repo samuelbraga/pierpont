@@ -77,6 +77,27 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ExceptionBase'
+    get:
+      summary: List transaction by account
+      description: Method responsible to list transaction in an account
+      operationId: listTransactions
+      parameters:
+        - $ref: '#/components/parameters/AccountIdQueryParam'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          description: BAD_REQUEST
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExceptionBase'
 
 components:
   schemas:
@@ -132,7 +153,24 @@ components:
         operationType:
           $ref: '#/components/schemas/OperationType'
       required:
-        - documentNumber
+        - accountId
+        - amount
+        - operationType
+    TransactionResponse:
+      type: object
+      properties:
+        transactionId:
+          type: integer
+          format: int64
+          example: 13
+        amount:
+          type: number
+          minimum: 0
+          example: 50.00
+        operationType:
+          $ref: '#/components/schemas/OperationType'
+      required:
+        - transactionId
         - amount
         - operationType
     ExceptionBase:
@@ -148,6 +186,14 @@ components:
   parameters:
     AccountIdParam:
       in: path
+      name: accountId
+      required: true
+      schema:
+        type: integer
+        format: int64
+        example: 13
+    AccountIdQueryParam:
+      in: query
       name: accountId
       required: true
       schema:
