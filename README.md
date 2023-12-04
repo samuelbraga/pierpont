@@ -22,6 +22,7 @@ Is possible use docker to provision application and database
 - [Java 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 - [Maven](https://maven.apache.org/download.cgi)
 - [Docker](https://docs.docker.com/get-docker/)
+- [Newman](https://www.npmjs.com/package/newman)
 
 ### Installing
 
@@ -47,6 +48,11 @@ Additionally, the JUnit API offers a variety of assert methods, such as `assertE
 To execute unit tests is possible use:
 
     mvn test
+
+### Integration Tests
+The integration tests ware develop using Newman and Postman
+
+
 
 ### Style test
 

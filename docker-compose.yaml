@@ -3,12 +3,16 @@ version: '3.5'
 services:
   postgres:
     image: postgres
-    platform: linux/arm/v8
     environment:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "pierpont"
     restart: on-failure
+    healthcheck:
+      test: pg_isready -U postgres -d pierpont
+      interval: 10s
+      timeout: 3s
+      retries: 3
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
@@ -24,7 +28,7 @@ services:
     restart: on-failure
     depends_on:
       postgres:
-        condition: service_started
+        condition: service_healthy
     networks:
       - pierpont
 
@@ -35,17 +39,31 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASS: "postgres"
       JAVA_OPTS: "-Ddebug -Xmx128m"
-    restart: on-failure
     ports:
       - "8080:8080"
       - "8081:8081"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8081/actuator/health" ]
+      interval: 15s
+      timeout: 3s
+      retries: 3
     depends_on:
       postgres:
-        condition: service_started
+        condition: service_healthy
       flyway:
         condition: service_completed_successfully
     networks:
       - pierpont
+
+  newman:
+    image: alpine
+    depends_on:
+      flyway:
+        condition: service_completed_successfully
+      pierpont:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
 
 networks:
   pierpont:

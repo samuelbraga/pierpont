@@ -14,11 +14,9 @@ spring:
     show-sql: false
   datasource:
     driver-class-name: "org.postgresql.Driver"
-    url: "jdbc:postgresql://192.168.64.1:5432/pierpont"
-    username: "postgres"
-    password: "postgres"
-
-#    DATABASE_JDBC_URL=jdbc:postgresql://192.168.64.1:5432/pierpont;POSTGRES_PASSWORD=postgres;POSTGRES_USER=postgres;JAVA_OPTS=-Ddebug -Xmx128m
+    url: ${DATABASE_JDBC_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASS}
 
 management:
   server:
