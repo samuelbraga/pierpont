@@ -1,0 +1,575 @@
+{
+	"info": {
+		"_postman_id": "f0820597-ab4b-4cd4-8109-547b45150c05",
+		"name": "Pierpont",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7090702"
+	},
+	"item": [
+		{
+			"name": "Accounts",
+			"item": [
+				{
+					"name": "Create account success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"Create account success check status\", function() {",
+									"    pm.response.to.have.status(201)",
+									"})",
+									"",
+									"pm.test(\"Create account success check payload\", function() {",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"accountId\")",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"documentNumber\")",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"availableCreditLimit\")",
+									"    pm.expect(responseJson.documentNumber).to.eq(\"123456\")",
+									"    pm.expect(responseJson.availableCreditLimit).to.eq(1000)",
+									"})",
+									"",
+									"pm.collectionVariables.set(\"ACCOUNT_ID\", responseJson.accountId)"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"documentNumber\": \"123456\",\n    \"availableCreditLimit\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/accounts",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create account failed with same document number",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"Create account failed check status\", function() {",
+									"    pm.response.to.have.status(400)",
+									"})",
+									"",
+									"pm.test(\"Create account failed check payload\", function() {",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"message\")",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"code\")",
+									"    pm.expect(responseJson.message).to.eq(\"Document number already exists\")",
+									"    pm.expect(responseJson.code).to.eq(\"BAD_REQUEST\")",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"documentNumber\": \"123456\",\n    \"availableCreditLimit\": 1000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/accounts",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search account with success",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"Search account with succes check status\", function() {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test(\"Search account with succes check payload\", function() {",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"accountId\")",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"documentNumber\")",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"availableCreditLimit\")",
+									"    pm.expect(responseJson.documentNumber).to.eq(\"123456\")",
+									"    pm.expect(responseJson.availableCreditLimit).to.eq(1000)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/accounts/{{ACCOUNT_ID}}",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"{{ACCOUNT_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Search account with success Copy",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"Search account with failed check status\", function() {",
+									"    pm.response.to.have.status(400)",
+									"})",
+									"",
+									"pm.test(\"Create account failed check payload\", function() {",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"message\")",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"code\")",
+									"    pm.expect(responseJson.message).to.eq(\"Account id not exist\")",
+									"    pm.expect(responseJson.code).to.eq(\"BAD_REQUEST\")",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/accounts/0",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"accounts",
+								"0"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Transaction",
+			"item": [
+				{
+					"name": "Create transaction succes with installment purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create transaction with success check status\", function() {",
+									"    pm.response.to.have.status(204)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": {{ACCOUNT_ID}},\n    \"operationType\": \"INSTALLMENT_PURCHASE\",\n    \"amount\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/transaction",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create transaction succes with cash purchase",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create transaction with success check status\", function() {",
+									"    pm.response.to.have.status(204)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": {{ACCOUNT_ID}},\n    \"operationType\": \"CASH_PURCHASE\",\n    \"amount\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/transaction",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create transaction succes with withdrwal",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create transaction with success check status\", function() {",
+									"    pm.response.to.have.status(204)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": {{ACCOUNT_ID}},\n    \"operationType\": \"WITHDRAWAL\",\n    \"amount\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/transaction",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create transaction succes with payment",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create transaction with success check status\", function() {",
+									"    pm.response.to.have.status(204)",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": {{ACCOUNT_ID}},\n    \"operationType\": \"PAYMENT\",\n    \"amount\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/transaction",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create transaction failed with account id not exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"Search account with failed check status\", function() {",
+									"    pm.response.to.have.status(400)",
+									"})",
+									"",
+									"pm.test(\"Create account failed check payload\", function() {",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"message\")",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"code\")",
+									"    pm.expect(responseJson.message).to.eq(\"Account id not exist\")",
+									"    pm.expect(responseJson.code).to.eq(\"BAD_REQUEST\")",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"accountId\": 0,\n    \"operationType\": \"INSTALLMENT_PURCHASE\",\n    \"amount\": 10\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/transaction",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List transactions with succes",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"List account transaction check status\", function() {",
+									"    pm.response.to.have.status(200)",
+									"})",
+									"",
+									"pm.test(\"List account transaction check payload\", function() {",
+									"    pm.expect(responseJson).to.be.an(\"array\")",
+									"    ",
+									"    pm.expect(responseJson[0].amount).to.eq(-10)",
+									"    pm.expect(responseJson[0].operationType).to.eq(\"INSTALLMENT_PURCHASE\")",
+									"",
+									"    pm.expect(responseJson[1].amount).to.eq(-10)",
+									"    pm.expect(responseJson[1].operationType).to.eq(\"CASH_PURCHASE\")",
+									"",
+									"    pm.expect(responseJson[2].amount).to.eq(-10)",
+									"    pm.expect(responseJson[2].operationType).to.eq(\"WITHDRAWAL\")",
+									"",
+									"    pm.expect(responseJson[3].amount).to.eq(10)",
+									"    pm.expect(responseJson[3].operationType).to.eq(\"PAYMENT\")",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/transaction?accountId={{ACCOUNT_ID}}",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							],
+							"query": [
+								{
+									"key": "accountId",
+									"value": "{{ACCOUNT_ID}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "List transactions failed with account not exists",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const responseJson = pm.response.json()",
+									"",
+									"pm.test(\"List account transaction failed check status\", function() {",
+									"    pm.response.to.have.status(400)",
+									"})",
+									"",
+									"pm.test(\"List account transaction failed check payload\", function() {",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"message\")",
+									"    pm.expect(responseJson).to.haveOwnProperty(\"code\")",
+									"    pm.expect(responseJson.message).to.eq(\"Account id not exist\")",
+									"    pm.expect(responseJson.code).to.eq(\"BAD_REQUEST\")",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://{{BASE_URL}}/api/v1/transaction?accountId=0",
+							"protocol": "http",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"transaction"
+							],
+							"query": [
+								{
+									"key": "accountId",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ACCOUNT_ID",
+			"value": ""
+		},
+		{
+			"key": "BASE_URL",
+			"value": "",
+			"type": "string"
+		}
+	]
+}

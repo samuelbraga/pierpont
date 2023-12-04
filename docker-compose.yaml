@@ -8,6 +8,7 @@ services:
       POSTGRES_USER: "postgres"
       POSTGRES_PASSWORD: "postgres"
       POSTGRES_DB: "pierpont"
+    restart: on-failure
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
@@ -20,25 +21,29 @@ services:
     command: -url=jdbc:postgresql://postgres/pierpont -user=postgres -password=postgres migrate
     volumes:
       - ${PWD}/src/main/resources/db/migration:/flyway/sql
+    restart: on-failure
     depends_on:
-      - "postgres"
+      postgres:
+        condition: service_started
     networks:
       - pierpont
 
   pierpont:
-#    image: pierpont:1.0.0
     build: .
     environment:
       DATABASE_JDBC_URL: "jdbc:postgresql://postgres:5432/pierpont"
       POSTGRES_USER: "postgres"
       POSTGRES_PASS: "postgres"
       JAVA_OPTS: "-Ddebug -Xmx128m"
+    restart: on-failure
     ports:
       - "8080:8080"
       - "8081:8081"
     depends_on:
-      - "postgres"
-      - "flyway"
+      postgres:
+        condition: service_started
+      flyway:
+        condition: service_completed_successfully
     networks:
       - pierpont
 
