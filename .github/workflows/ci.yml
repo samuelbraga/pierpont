@@ -21,3 +21,10 @@ jobs:
         run: mvn package
       - name: Tests with Maven
         run: mvn test
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v4-beta
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: ./target/site/jacoco/jacoco.xml
+          flags: jacoco
+          fail_ci_if_error: true
