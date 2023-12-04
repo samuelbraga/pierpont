@@ -10,6 +10,8 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TransactionDTO {
+  private Long id;
+
   private BigDecimal amount;
 
   private AccountDTO account;

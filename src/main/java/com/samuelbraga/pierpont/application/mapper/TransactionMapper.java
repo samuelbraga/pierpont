@@ -4,6 +4,7 @@ import com.samuelbraga.pierpont.application.dtos.transactions.CreateTransactionD
 import com.samuelbraga.pierpont.application.dtos.transactions.TransactionDTO;
 import com.samuelbraga.pierpont.infrastructure.repositories.entities.Transaction;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.openapitools.model.CreateTransactionRequest;
 import org.openapitools.model.TransactionResponse;
 
@@ -16,5 +17,9 @@ public interface TransactionMapper {
   CreateTransactionDTO fromCreateTransactionRequestToCreateTransactionDTO(
     CreateTransactionRequest from
   );
-  TransactionResponse fromTransactionDTIOToTransactionResponse(TransactionDTO from);
+
+  @Mapping(source = "id", target = "transactionId")
+  TransactionResponse fromTransactionDTIOToTransactionResponse(
+    TransactionDTO from
+  );
 }

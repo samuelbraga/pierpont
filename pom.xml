@@ -156,7 +156,7 @@
 			<plugin>
 				<groupId>com.hubspot.maven.plugins</groupId>
 				<artifactId>prettier-maven-plugin</artifactId>
-				<version>0.8</version>
+				<version>0.16</version>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>

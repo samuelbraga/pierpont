@@ -1,11 +1,14 @@
 package com.samuelbraga.pierpont.infrastructure.controllers;
 
+import static com.samuelbraga.pierpont.Constants.ACCOUNT_ID_PARAM;
+
 import com.samuelbraga.pierpont.application.handles.transactions.CreateTransactionalHandle;
 import com.samuelbraga.pierpont.application.handles.transactions.ListTransactionHandle;
 import com.samuelbraga.pierpont.application.mapper.TransactionMapper;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.openapitools.api.TransactionApi;
 import org.openapitools.model.CreateTransactionRequest;
@@ -15,10 +18,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-
-import static com.samuelbraga.pierpont.Constants.ACCOUNT_ID_PARAM;
 
 @RestController
 @RequiredArgsConstructor
@@ -41,13 +40,16 @@ public class TransactionalController implements TransactionApi {
 
   @Override
   public ResponseEntity<List<TransactionResponse>> listTransactions(
-          @Valid @RequestParam(value = ACCOUNT_ID_PARAM) Long accountId
+    @NotNull @Parameter(
+      name = ACCOUNT_ID_PARAM,
+      required = true
+    ) @Valid @RequestParam(value = ACCOUNT_ID_PARAM) Long accountId
   ) {
-    var transactions = listTransactionHandle.execute(accountId);
+    var transactions = this.listTransactionHandle.execute(accountId);
     var response = transactions
-            .stream()
-            .map(transactionMapper::fromTransactionDTIOToTransactionResponse)
-            .toList();
+      .stream()
+      .map(this.transactionMapper::fromTransactionDTIOToTransactionResponse)
+      .toList();
     return new ResponseEntity<>(response, HttpStatus.OK);
   }
 }
